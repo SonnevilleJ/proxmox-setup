@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+OS_CODENAME="$(grep "VERSION_CODENAME=" /etc/os-release | cut -d"=" -f 2 | xargs)"
+
 # disable enterprise proxmox repo
 if [ -f /etc/apt/sources.list.d/pve-enterprise.list ]; then
   sed -i "s/^deb/#deb/g" /etc/apt/sources.list.d/pve-enterprise.list
@@ -9,7 +11,6 @@ if [ ! -f /etc/apt/sources.list.d/proxmox.list ] && [ ! -f /etc/apt/sources.list
   echo -e "deb http://download.proxmox.com/debian/pve ${OS_CODENAME} pve-no-subscription\\n" >/etc/apt/sources.list.d/pve-public-repo.list
 fi
 
-OS_CODENAME="$(grep "VERSION_CODENAME=" /etc/os-release | cut -d"=" -f 2 | xargs)"
 # rebuild and add non-free to /etc/apt/sources.list
 cat <<EOF >/etc/apt/sources.list
 deb https://ftp.debian.org/debian ${OS_CODENAME} main contrib
@@ -17,7 +18,7 @@ deb https://ftp.debian.org/debian ${OS_CODENAME}-updates main contrib
 # non-free
 #deb https://httpredir.debian.org/debian/ ${OS_CODENAME} main contrib non-free
 # security updates
-deb https://security.debian.org/debian-security ${OS_CODENAME}/updates main contrib
+deb https://security.debian.org/debian-security ${OS_CODENAME}-security/updates main contrib
 EOF
 
 # Refresh the package lists
