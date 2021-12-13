@@ -19,4 +19,4 @@ docker run \
 -v /tank/Plex/plex-data/config:/config \
 -v /tank/Plex/plex-data/transcode:/transcode \
 -v /tank/Plex:/data \
-plexinc/pms-docker
+plexinc/pms-docker:plexpass
